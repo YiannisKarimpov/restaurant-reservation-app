@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Welcome to Bistro</h1>
+        <p>Experience fine dining at its best</p>
+        <a href="{{ url_for('main.reserve') }}" class="btn btn-primary">Make a Reservation</a>
+    </div>
+</section>
+
+<section class="featured">
+    <div class="container">
+        <h2>Why Choose Us?</h2>
+        <div class="features">
+            <div class="feature">
+                <h3>🍽️ Exquisite Cuisine</h3>
+                <p>Carefully crafted dishes by our award-winning chef</p>
+            </div>
+            <div class="feature">
+                <h3>🏆 Premium Service</h3>
+                <p>Attentive staff dedicated to your experience</p>
+            </div>
+            <div class="feature">
+                <h3>🎭 Elegant Ambiance</h3>
+                <p>Perfect setting for any occasion</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
