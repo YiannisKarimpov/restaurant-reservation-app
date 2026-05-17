@@ -1,3 +1,4 @@
+# Authentication routes created on Day 3
 """
 Authentication routes for user login and registration.
 """
