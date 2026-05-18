@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome, {{ user.username }}!</h1>
+            <p>Your reservation dashboard</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3>Profile</h3>
+                <p>View and edit your profile information</p>
+                <a href="{{ url_for('dashboard.profile') }}" class="btn btn-secondary">Go to Profile</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>My Reservations</h3>
+                <p>View all your restaurant reservations</p>
+                <a href="{{ url_for('dashboard.reservations') }}" class="btn btn-secondary">View Reservations</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Make Reservation</h3>
+                <p>Book a table at our restaurant</p>
+                <a href="{{ url_for('main.reserve') }}" class="btn btn-secondary">Make Reservation</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Browse Menu</h3>
+                <p>Check out our delicious menu</p>
+                <a href="{{ url_for('main.menu') }}" class="btn btn-secondary">View Menu</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

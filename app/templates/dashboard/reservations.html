@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}My Reservations - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Your Reservations</h1>
+        </div>
+
+        {% if reservations %}
+            <div class="reservations-list">
+                {% for reservation in reservations %}
+                    <div class="reservation-card">
+                        <h3>{{ reservation.restaurant.name }}</h3>
+                        <div class="reservation-details">
+                            <p><strong>Date:</strong> {{ reservation.reservation_date.strftime('%B %d, %Y') }}</p>
+                            <p><strong>Time:</strong> {{ reservation.reservation_time.strftime('%I:%M %p') }}</p>
+                            <p><strong>Party Size:</strong> {{ reservation.party_size }} people</p>
+                            <p><strong>Status:</strong> <span class="status {{ reservation.status }}">{{ reservation.status.title() }}</span></p>
+                            {% if reservation.special_requests %}
+                                <p><strong>Special Requests:</strong> {{ reservation.special_requests }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>You haven't made any reservations yet.</p>
+                <a href="{{ url_for('main.reserve') }}" class="btn btn-primary">Make Your First Reservation</a>
+            </div>
+        {% endif %}
+
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</section>
+{% endblock %}
