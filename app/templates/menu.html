@@ -5,8 +5,28 @@
 {% block content %}
 <section class="menu-section">
     <div class="container">
-        <h1>Our Menu</h1>
-        <p>Coming soon - Browse our delicious offerings</p>
+        <h1>{{ restaurant.name }}</h1>
+        <p>{{ restaurant.description }}</p>
+
+        {% if menu_items %}
+            <div class="menu-grid">
+                {% for item in menu_items %}
+                    <div class="menu-card">
+                        <h3>{{ item.name }}</h3>
+                        <p class="category">{{ item.category }}</p>
+                        <p class="description">{{ item.description }}</p>
+                        <p class="price">${{ "%.2f"|format(item.price) }}</p>
+                        {% if not item.available %}
+                            <p class="unavailable">Currently Unavailable</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-menu">
+                <p>Menu coming soon!</p>
+            </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

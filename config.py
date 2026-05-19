@@ -20,7 +20,7 @@ class Config:
     DB_USER = os.getenv('DB_USER', 'postgres')
     DB_PASSWORD = os.getenv('DB_PASSWORD', '')
     
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///restaurant.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///./restaurant.db'
 
 
 class DevelopmentConfig(Config):

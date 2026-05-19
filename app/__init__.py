@@ -52,5 +52,9 @@ def create_app(config_name='development'):
     # Create database tables
     with app.app_context():
         db.create_all()
+        # Debug: Check if tables exist
+        inspector = db.inspect(db.engine)
+        tables = inspector.get_table_names()
+        print(f"Database tables: {tables}")
     
     return app
