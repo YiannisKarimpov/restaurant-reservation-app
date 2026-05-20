@@ -2,10 +2,11 @@
 Main routes for the application.
 Handles home, restaurant info, menu, and reservation pages.
 """
-from app.models import Restaurant, MenuItem
+from flask import request, redirect, flash, url_for, Blueprint, render_template
+from flask_login import current_user
+from app.models import Reservation, Restaurant, MenuItem
 from app import db
 
-from flask import Blueprint, render_template
 
 main_bp = Blueprint('main', __name__)
 
@@ -53,10 +54,44 @@ def menu():
     return render_template('menu.html', restaurant=restaurant, menu_items=menu_items)
 
 
-@main_bp.route('/reserve')
+@main_bp.route('/reserve', methods=['GET', 'POST'])
 def reserve():
     """Reservation page route."""
-    return render_template('reserve.html')
+    from flask_login import login_required
+    from datetime import datetime, timedelta
+    
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            flash('Please log in to make a reservation!', 'error')
+            return redirect(url_for('auth.login'))
+        
+        restaurant_id = request.form.get('restaurant_id')
+        reservation_date = request.form.get('reservation_date')
+        reservation_time = request.form.get('reservation_time')
+        party_size = request.form.get('party_size')
+        special_requests = request.form.get('special_requests')
+        
+        if not all([restaurant_id, reservation_date, reservation_time, party_size]):
+            flash('All fields are required!', 'error')
+            return redirect(url_for('main.reserve'))
+        
+        reservation = Reservation(
+            user_id=current_user.id,
+            restaurant_id=int(restaurant_id),
+            reservation_date=datetime.strptime(reservation_date, '%Y-%m-%d').date(),
+            reservation_time=datetime.strptime(reservation_time, '%H:%M').time(),
+            party_size=int(party_size),
+            special_requests=special_requests
+        )
+        
+        db.session.add(reservation)
+        db.session.commit()
+        
+        flash('Reservation confirmed! Check your dashboard.', 'success')
+        return redirect(url_for('dashboard.index'))
+    
+    restaurant = Restaurant.query.first()
+    return render_template('reserve.html', restaurant=restaurant)
 
 
 @main_bp.route('/about')
