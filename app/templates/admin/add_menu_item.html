@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Add Menu Item - Admin{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <div class="form-container">
+            <h1>Add Menu Item</h1>
+            
+            <form method="POST" class="admin-form">
+                <div class="form-group">
+                    <label for="name">Item Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="Appetizer">Appetizer</option>
+                        <option value="Main">Main Course</option>
+                        <option value="Dessert">Dessert</option>
+                        <option value="Beverage">Beverage</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" name="price" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </form>
+
+            <a href="{{ url_for('admin.menu') }}" class="btn btn-secondary">Back to Menu</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

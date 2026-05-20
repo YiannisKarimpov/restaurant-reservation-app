@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <p class="stat-number">{{ total_users }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Reservations</h3>
+                <p class="stat-number">{{ total_reservations }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Menu Items</h3>
+                <p class="stat-number">{{ total_menu_items }}</p>
+            </div>
+        </div>
+
+        <div class="admin-section-box">
+            <h2>Recent Reservations</h2>
+            {% if recent_reservations %}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Party Size</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for res in recent_reservations %}
+                            <tr>
+                                <td>{{ res.user.username }}</td>
+                                <td>{{ res.reservation_date.strftime('%b %d, %Y') }}</td>
+                                <td>{{ res.reservation_time.strftime('%I:%M %p') }}</td>
+                                <td>{{ res.party_size }}</td>
+                                <td><span class="status {{ res.status }}">{{ res.status.title() }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No reservations yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="admin-links">
+            <a href="{{ url_for('admin.reservations') }}" class="btn btn-primary">Manage Reservations</a>
+            <a href="{{ url_for('admin.menu') }}" class="btn btn-secondary">Manage Menu</a>
+            <a href="{{ url_for('admin.users') }}" class="btn btn-secondary">Manage Users</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
