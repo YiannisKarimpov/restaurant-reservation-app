@@ -100,7 +100,34 @@ def about():
     return render_template('about.html')
 
 
-@main_bp.route('/contact')
+@main_bp.route('/contact', methods=['GET', 'POST'])
 def contact():
     """Contact page route."""
+    from app.models import ContactMessage
+    
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        
+        if not all([name, email, subject, message]):
+            flash('All fields are required!', 'error')
+            return redirect(url_for('main.contact'))
+        
+        # Save to database
+        contact_msg = ContactMessage(
+            name=name,
+            email=email,
+            phone=phone,
+            subject=subject,
+            message=message
+        )
+        db.session.add(contact_msg)
+        db.session.commit()
+        
+        flash('Thank you! We received your message and will get back to you soon.', 'success')
+        return redirect(url_for('main.contact'))
+    
     return render_template('contact.html')
