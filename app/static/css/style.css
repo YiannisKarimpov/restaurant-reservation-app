@@ -1018,3 +1018,43 @@ a:focus-visible {
         padding: 1.5rem;
     }
 }
+
+/* Reservation Card Enhancements */
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.reservation-header h3 {
+    margin: 0;
+}
+
+.detail-item {
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.detail-item strong {
+    color: var(--primary-color);
+}
+
+.reservation-actions {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.cancelled-notice {
+    color: #721c24;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}

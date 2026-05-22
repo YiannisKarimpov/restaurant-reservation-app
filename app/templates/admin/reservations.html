@@ -1,53 +1,65 @@
 {% extends "base.html" %}
 
-{% block title %}Admin - Reservations{% endblock %}
+{% block title %}My Reservations - Restaurant Reservation{% endblock %}
 
 {% block content %}
-<section class="admin-section">
+<section class="dashboard-section">
     <div class="container">
-        <h1>Manage Reservations</h1>
-        
+        <div class="dashboard-header">
+            <h1>Your Reservations</h1>
+        </div>
+
         {% if reservations %}
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Party</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for res in reservations %}
-                        <tr>
-                            <td>{{ res.user.username }}</td>
-                            <td>{{ res.reservation_date.strftime('%b %d, %Y') }}</td>
-                            <td>{{ res.reservation_time.strftime('%I:%M %p') }}</td>
-                            <td>{{ res.party_size }}</td>
-                            <td><span class="status {{ res.status }}">{{ res.status.title() }}</span></td>
-                            <td>
-                                {% if res.status != 'confirmed' %}
-                                    <form method="POST" action="{{ url_for('admin.confirm_reservation', id=res.id) }}" style="display:inline;">
-                                        <button type="submit" class="btn btn-sm btn-success">Confirm</button>
-                                    </form>
-                                {% endif %}
-                                {% if res.status != 'cancelled' %}
-                                    <form method="POST" action="{{ url_for('admin.cancel_reservation', id=res.id) }}" style="display:inline;">
-                                        <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
-                                    </form>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="reservations-list">
+                {% for reservation in reservations %}
+                    <div class="reservation-card">
+                        <div class="reservation-header">
+                            <h3>{{ reservation.restaurant.name }}</h3>
+                            <span class="status {{ reservation.status }}">{{ reservation.status.title() }}</span>
+                        </div>
+                        
+                        <div class="reservation-details">
+                            <div class="detail-item">
+                                <strong>📅 Date:</strong> {{ reservation.reservation_date.strftime('%B %d, %Y') }}
+                            </div>
+                            <div class="detail-item">
+                                <strong>⏰ Time:</strong> {{ reservation.reservation_time.strftime('%I:%M %p') }}
+                            </div>
+                            <div class="detail-item">
+                                <strong>👥 Party Size:</strong> {{ reservation.party_size }} people
+                            </div>
+                            {% if reservation.special_requests %}
+                                <div class="detail-item">
+                                    <strong>📝 Special Requests:</strong> {{ reservation.special_requests }}
+                                </div>
+                            {% endif %}
+                            <div class="detail-item">
+                                <strong>📅 Booked on:</strong> {{ reservation.created_at.strftime('%B %d, %Y') }}
+                            </div>
+                        </div>
+
+                        <div class="reservation-actions">
+                            {% if reservation.status != 'cancelled' %}
+                                <form method="POST" action="{{ url_for('dashboard.cancel_reservation', id=reservation.id) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this reservation?')">
+                                        Cancel Reservation
+                                    </button>
+                                </form>
+                            {% else %}
+                                <span class="cancelled-notice">This reservation has been cancelled</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         {% else %}
-            <p>No reservations found.</p>
+            <div class="empty-state">
+                <p>You haven't made any reservations yet.</p>
+                <a href="{{ url_for('main.reserve') }}" class="btn btn-primary">Make Your First Reservation</a>
+            </div>
         {% endif %}
 
-        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-secondary">Back to Dashboard</a>
     </div>
 </section>
 {% endblock %}
