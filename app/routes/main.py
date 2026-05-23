@@ -2,6 +2,7 @@
 Main routes for the application.
 Handles home, restaurant info, menu, and reservation pages.
 """
+from sqlalchemy import or_
 from flask import request, redirect, flash, url_for, Blueprint, render_template
 from flask_login import current_user
 from app.models import Reservation, Restaurant, MenuItem
@@ -131,3 +132,49 @@ def contact():
         return redirect(url_for('main.contact'))
     
     return render_template('contact.html')
+
+
+@main_bp.route('/search', methods=['GET', 'POST'])
+def search():
+    """Search menu items and reservations."""
+    query = request.args.get('q', '').strip()
+    search_type = request.args.get('type', 'menu')
+    results = []
+    
+    if query:
+        if search_type == 'menu':
+            results = MenuItem.query.filter(
+                or_(
+                    MenuItem.name.ilike(f'%{query}%'),
+                    MenuItem.description.ilike(f'%{query}%'),
+                    MenuItem.category.ilike(f'%{query}%')
+                )
+            ).all()
+        elif search_type == 'category':
+            results = MenuItem.query.filter_by(category=query).all()
+    
+    return render_template('search.html', results=results, query=query, search_type=search_type)
+
+
+@main_bp.route('/menu/filter')
+def filter_menu():
+    """Filter menu by category."""
+    category = request.args.get('category', '')
+    restaurant = Restaurant.query.first()
+    
+    if category:
+        menu_items = MenuItem.query.filter_by(
+            restaurant_id=restaurant.id,
+            category=category
+        ).all()
+    else:
+        menu_items = MenuItem.query.filter_by(restaurant_id=restaurant.id).all()
+    
+    categories = db.session.query(MenuItem.category).distinct().all()
+    categories = [c[0] for c in categories]
+    
+    return render_template('menu_filtered.html', 
+                         menu_items=menu_items, 
+                         categories=categories,
+                         selected_category=category,
+                         restaurant=restaurant)

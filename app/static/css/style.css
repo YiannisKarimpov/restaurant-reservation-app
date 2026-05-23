@@ -1058,3 +1058,162 @@ a:focus-visible {
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
 }
+
+/* ============================================
+   SEARCH & FILTER STYLES
+   ============================================ */
+
+.search-section {
+    padding: 4rem 0;
+    background-color: var(--bg-color);
+}
+
+.search-section h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.search-box {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 3rem;
+}
+
+.search-form {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.1);
+}
+
+.search-form select {
+    padding: 0.75rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.search-results {
+    margin-top: 2rem;
+}
+
+.search-results h2 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.no-results p {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+}
+
+.search-placeholder {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    color: var(--text-light);
+}
+
+/* Menu Filter */
+.menu-filter {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 3rem;
+}
+
+.menu-filter h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.filter-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-light);
+    color: var(--text-color);
+    border: 2px solid transparent;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter-btn:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.filter-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-form {
+        flex-direction: column;
+    }
+
+    .search-form input,
+    .search-form select {
+        width: 100%;
+    }
+
+    .search-form .btn {
+        width: 100%;
+    }
+
+    .filter-buttons {
+        gap: 0.5rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}

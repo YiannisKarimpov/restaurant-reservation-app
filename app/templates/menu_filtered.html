@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Menu - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="menu-section">
+    <div class="container">
+        <h1>{{ restaurant.name }}</h1>
+        <p>{{ restaurant.description }}</p>
+
+        <div class="menu-filter">
+            <h3>Filter by Category:</h3>
+            <div class="filter-buttons">
+                <a href="{{ url_for('main.filter_menu') }}" class="filter-btn {% if not selected_category %}active{% endif %}">
+                    All Items
+                </a>
+                {% for cat in categories %}
+                    <a href="{{ url_for('main.filter_menu', category=cat) }}" class="filter-btn {% if selected_category == cat %}active{% endif %}">
+                        {{ cat }}
+                    </a>
+                {% endfor %}
+            </div>
+            <a href="{{ url_for('main.search') }}" class="btn btn-secondary">Search Menu</a>
+        </div>
+
+        {% if menu_items %}
+            <div class="menu-grid">
+                {% for item in menu_items %}
+                    <div class="menu-card">
+                        <h3>{{ item.name }}</h3>
+                        <p class="category">{{ item.category }}</p>
+                        <p class="description">{{ item.description }}</p>
+                        <p class="price">${{ "%.2f"|format(item.price) }}</p>
+                        {% if not item.available %}
+                            <p class="unavailable">Currently Unavailable</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-menu">
+                <p>No items in this category.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

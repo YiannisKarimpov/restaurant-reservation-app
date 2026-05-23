@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Search - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="search-section">
+    <div class="container">
+        <h1>Search Menu</h1>
+        
+        <div class="search-box">
+            <form method="GET" class="search-form">
+                <input type="text" name="q" placeholder="Search menu items..." value="{{ query }}" required>
+                <select name="type">
+                    <option value="menu" {% if search_type == 'menu' %}selected{% endif %}>By Name/Description</option>
+                    <option value="category" {% if search_type == 'category' %}selected{% endif %}>By Category</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a href="{{ url_for('main.menu') }}" class="btn btn-secondary">View All Menu</a>
+            </form>
+        </div>
+
+        {% if query %}
+            <div class="search-results">
+                {% if results %}
+                    <h2>Found {{ results|length }} result{% if results|length != 1 %}s{% endif %}</h2>
+                    <div class="menu-grid">
+                        {% for item in results %}
+                            <div class="menu-card">
+                                <h3>{{ item.name }}</h3>
+                                <p class="category">{{ item.category }}</p>
+                                <p class="description">{{ item.description }}</p>
+                                <p class="price">${{ "%.2f"|format(item.price) }}</p>
+                                {% if not item.available %}
+                                    <p class="unavailable">Currently Unavailable</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-results">
+                        <p>No items found matching "{{ query }}"</p>
+                        <p>Try searching with different keywords</p>
+                        <a href="{{ url_for('main.menu') }}" class="btn btn-primary">View All Menu</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="search-placeholder">
+                <p>Enter a search term to find menu items</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
