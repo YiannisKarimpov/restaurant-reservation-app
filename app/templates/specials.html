@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Specials & Offers - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="specials-section">
+    <div class="container">
+        <h1>Special Offers</h1>
+        <p>Check out our current promotions</p>
+
+        {% if specials %}
+            <div class="specials-grid">
+                {% for special in specials %}
+                    <div class="special-card">
+                        <div class="discount-badge">{{ special.discount }}</div>
+                        <h3>{{ special.title }}</h3>
+                        <p>{{ special.description }}</p>
+                        <p class="valid-until">Valid until {{ special.valid_until.strftime('%B %d, %Y') }}</p>
+                        <a href="{{ url_for('main.reserve') }}" class="btn btn-primary">Book Now</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-specials">
+                <p>No active specials at the moment. Check back soon!</p>
+                <a href="{{ url_for('main.menu') }}" class="btn btn-primary">View Menu</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -14,14 +14,22 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 def register():
     """User registration route."""
     if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
         
         # Validation
         if not username or not email or not password:
             flash('All fields are required!', 'error')
+            return redirect(url_for('auth.register'))
+        
+        if len(username) < 3:
+            flash('Username must be at least 3 characters!', 'error')
+            return redirect(url_for('auth.register'))
+        
+        if len(password) < 6:
+            flash('Password must be at least 6 characters!', 'error')
             return redirect(url_for('auth.register'))
         
         if password != confirm_password:
@@ -49,7 +57,6 @@ def register():
         return redirect(url_for('auth.login'))
     
     return render_template('register.html')
-
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():

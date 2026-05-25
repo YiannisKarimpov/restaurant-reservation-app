@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Reviews - Restaurant Reservation{% endblock %}
+
+{% block content %}
+<section class="reviews-section">
+    <div class="container">
+        <h1>Reviews & Testimonials</h1>
+        <p>See what our guests are saying</p>
+
+        {% if current_user.is_authenticated %}
+            <div class="review-form-container">
+                <h2>Leave a Review</h2>
+                <form method="POST" class="review-form">
+                    <div class="form-group">
+                        <label for="rating">Rating</label>
+                        <select id="rating" name="rating" required>
+                            <option value="">Select rating</option>
+                            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                            <option value="4">⭐⭐⭐⭐ Very Good</option>
+                            <option value="3">⭐⭐⭐ Good</option>
+                            <option value="2">⭐⭐ Fair</option>
+                            <option value="1">⭐ Poor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Review Title</label>
+                        <input type="text" id="title" name="title" placeholder="e.g., Amazing experience!" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Your Review</label>
+                        <textarea id="comment" name="comment" rows="5" placeholder="Share your dining experience..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="login-prompt">
+                <p>Please <a href="{{ url_for('auth.login') }}" class="btn btn-primary">login</a> to leave a review</p>
+            </div>
+        {% endif %}
+
+        <h2>Recent Reviews</h2>
+        {% if reviews %}
+            <div class="reviews-list">
+                {% for review in reviews %}
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <h3>{{ review.title }}</h3>
+                                <p class="reviewer">By {{ review.user.username }}</p>
+                            </div>
+                            <div class="rating">
+                                {% for i in range(review.rating) %}⭐{% endfor %}
+                            </div>
+                        </div>
+                        <p class="review-text">{{ review.comment }}</p>
+                        <p class="review-date">{{ review.created_at.strftime('%B %d, %Y') }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No reviews yet. Be the first to review!</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

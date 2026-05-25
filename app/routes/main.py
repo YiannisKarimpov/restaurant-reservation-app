@@ -5,7 +5,7 @@ Handles home, restaurant info, menu, and reservation pages.
 from sqlalchemy import or_
 from flask import request, redirect, flash, url_for, Blueprint, render_template
 from flask_login import current_user
-from app.models import Reservation, Restaurant, MenuItem
+from app.models import Reservation, Restaurant, MenuItem, Review, Special
 from app import db
 
 
@@ -58,7 +58,6 @@ def menu():
 @main_bp.route('/reserve', methods=['GET', 'POST'])
 def reserve():
     """Reservation page route."""
-    from flask_login import login_required
     from datetime import datetime, timedelta
     
     if request.method == 'POST':
@@ -66,33 +65,56 @@ def reserve():
             flash('Please log in to make a reservation!', 'error')
             return redirect(url_for('auth.login'))
         
-        restaurant_id = request.form.get('restaurant_id')
-        reservation_date = request.form.get('reservation_date')
-        reservation_time = request.form.get('reservation_time')
-        party_size = request.form.get('party_size')
-        special_requests = request.form.get('special_requests')
+        try:
+            restaurant_id = request.form.get('restaurant_id')
+            reservation_date = request.form.get('reservation_date')
+            reservation_time = request.form.get('reservation_time')
+            party_size = request.form.get('party_size')
+            special_requests = request.form.get('special_requests')
+            
+            if not all([restaurant_id, reservation_date, reservation_time, party_size]):
+                flash('All fields are required!', 'error')
+                return redirect(url_for('main.reserve'))
+            
+            # Validate party size
+            try:
+                party_size = int(party_size)
+                if party_size < 1 or party_size > 20:
+                    flash('Party size must be between 1 and 20!', 'error')
+                    return redirect(url_for('main.reserve'))
+            except ValueError:
+                flash('Invalid party size!', 'error')
+                return redirect(url_for('main.reserve'))
+            
+            # Validate date is in future
+            res_date = datetime.strptime(reservation_date, '%Y-%m-%d').date()
+            if res_date < datetime.now().date():
+                flash('Reservation date must be in the future!', 'error')
+                return redirect(url_for('main.reserve'))
+            
+            reservation = Reservation(
+                user_id=current_user.id,
+                restaurant_id=int(restaurant_id),
+                reservation_date=res_date,
+                reservation_time=datetime.strptime(reservation_time, '%H:%M').time(),
+                party_size=party_size,
+                special_requests=special_requests
+            )
+            
+            db.session.add(reservation)
+            db.session.commit()
+            
+            flash('Reservation confirmed! Check your dashboard.', 'success')
+            return redirect(url_for('dashboard.index'))
         
-        if not all([restaurant_id, reservation_date, reservation_time, party_size]):
-            flash('All fields are required!', 'error')
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred. Please try again.', 'error')
             return redirect(url_for('main.reserve'))
-        
-        reservation = Reservation(
-            user_id=current_user.id,
-            restaurant_id=int(restaurant_id),
-            reservation_date=datetime.strptime(reservation_date, '%Y-%m-%d').date(),
-            reservation_time=datetime.strptime(reservation_time, '%H:%M').time(),
-            party_size=int(party_size),
-            special_requests=special_requests
-        )
-        
-        db.session.add(reservation)
-        db.session.commit()
-        
-        flash('Reservation confirmed! Check your dashboard.', 'success')
-        return redirect(url_for('dashboard.index'))
     
     restaurant = Restaurant.query.first()
-    return render_template('reserve.html', restaurant=restaurant)
+    today = datetime.now().date().isoformat()
+    return render_template('reserve.html', restaurant=restaurant, today=today)
 
 
 @main_bp.route('/about')
@@ -178,3 +200,63 @@ def filter_menu():
                          categories=categories,
                          selected_category=category,
                          restaurant=restaurant)
+
+
+@main_bp.route('/reviews', methods=['GET', 'POST'])
+def reviews():
+    """View and submit reviews."""
+    from app.models import Review
+    
+    if request.method == 'POST':
+        if not current_user.is_authenticated:
+            flash('Please log in to leave a review!', 'error')
+            return redirect(url_for('auth.login'))
+        
+        restaurant = Restaurant.query.first()
+        rating = request.form.get('rating')
+        title = request.form.get('title')
+        comment = request.form.get('comment')
+        
+        if not all([rating, title, comment]):
+            flash('All fields are required!', 'error')
+            return redirect(url_for('main.reviews'))
+        
+        try:
+            rating = int(rating)
+            if rating < 1 or rating > 5:
+                flash('Rating must be between 1 and 5!', 'error')
+                return redirect(url_for('main.reviews'))
+        except ValueError:
+            flash('Invalid rating!', 'error')
+            return redirect(url_for('main.reviews'))
+        
+        review = Review(
+            user_id=current_user.id,
+            restaurant_id=restaurant.id,
+            rating=rating,
+            title=title,
+            comment=comment
+        )
+        db.session.add(review)
+        db.session.commit()
+        
+        flash('Thank you for your review!', 'success')
+        return redirect(url_for('main.reviews'))
+    
+    restaurant = Restaurant.query.first()
+    reviews = Review.query.filter_by(restaurant_id=restaurant.id).order_by(Review.created_at.desc()).all()
+    return render_template('reviews.html', reviews=reviews, restaurant=restaurant)
+
+
+@main_bp.route('/specials')
+def specials():
+    """View current specials and promotions."""
+    from app.models import Special
+    from datetime import datetime
+    
+    restaurant = Restaurant.query.first()
+    specials = Special.query.filter_by(restaurant_id=restaurant.id).filter(
+        Special.valid_until >= datetime.now().date()
+    ).all()
+    
+    return render_template('specials.html', specials=specials, restaurant=restaurant)

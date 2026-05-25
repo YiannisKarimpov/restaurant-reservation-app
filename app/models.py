@@ -99,3 +99,37 @@ class ContactMessage(db.Model):
     
     def __repr__(self):
         return f'<ContactMessage {self.id} - {self.email}>'
+
+
+class Review(db.Model):
+    """Review model for restaurant reviews."""
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    
+    user = db.relationship('User', backref='reviews')
+    restaurant = db.relationship('Restaurant', backref='reviews')
+    
+    def __repr__(self):
+        return f'<Review {self.id} - {self.rating} stars>'
+    
+class Special(db.Model):
+    """Special offers/promotions model."""
+    
+    id = db.Column(db.Integer, primary_key=True)
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    discount = db.Column(db.String(100), nullable=False)
+    valid_until = db.Column(db.Date, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    
+    restaurant = db.relationship('Restaurant', backref='specials')
+    
+    def __repr__(self):
+        return f'<Special {self.title}>'

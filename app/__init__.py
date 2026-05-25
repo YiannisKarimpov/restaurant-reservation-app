@@ -2,6 +2,7 @@
 Application factory for Restaurant Reservation App.
 Initializes Flask app, database, and authentication.
 """
+from flask import render_template
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -58,5 +59,15 @@ def create_app(config_name='development'):
         inspector = db.inspect(db.engine)
         tables = inspector.get_table_names()
         print(f"Database tables: {tables}")
+
+    # Error handlers
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return render_template('404.html'), 404
+    
+    @app.errorhandler(500)
+    def internal_error(error):
+        db.session.rollback()
+        return render_template('500.html'), 500
     
     return app

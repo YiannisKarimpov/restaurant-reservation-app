@@ -692,7 +692,7 @@ p {
     margin-bottom: 1rem;
 }
 
-.login-prompt a {
+.login-prompt a:not(.btn) {
     color: var(--primary-color);
     text-decoration: none;
 }
@@ -1215,5 +1215,417 @@ a:focus-visible {
     .filter-btn {
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
+    }
+}
+
+/* ============================================
+   ERROR PAGE STYLES
+   ============================================ */
+
+.error-section {
+    background: linear-gradient(135deg, var(--primary-color), #654321);
+    color: var(--white);
+    padding: 8rem 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.error-container {
+    background: var(--white);
+    color: var(--text-color);
+    padding: 3rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+}
+
+.error-container h1 {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.error-container h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.error-container p {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   ABOUT PAGE STYLES
+   ============================================ */
+
+.about-section {
+    padding: 4rem 0;
+    background-color: var(--bg-color);
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.about-header h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.about-header p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.about-text {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.about-text h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.about-text p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.stat {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+.stat h3 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+}
+
+.stat p {
+    color: var(--white);
+    margin: 0;
+}
+
+.about-section-box {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+}
+
+.about-section-box h2 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.value-card {
+    padding: 1.5rem;
+    background: var(--bg-light);
+    border-radius: 8px;
+    text-align: center;
+    border-left: 4px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-sm);
+}
+
+.value-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.value-card p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+
+    .about-header h1 {
+        font-size: 2rem;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   REVIEWS & TESTIMONIALS STYLES
+   ============================================ */
+
+.reviews-section {
+    padding: 4rem 0;
+    background-color: var(--bg-color);
+}
+
+.reviews-section h1 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.reviews-section > .container > p {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+}
+
+.review-form-container {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+}
+
+.review-form-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.review-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.review-form input:focus,
+.review-form select:focus,
+.review-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(139, 69, 19, 0.1);
+}
+
+.review-form .btn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.reviews-list {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.review-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--primary-color);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.review-header h3 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.reviewer {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0.25rem 0 0 0;
+}
+
+.rating {
+    font-size: 1.5rem;
+}
+
+.review-text {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+.review-date {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* ============================================
+   SPECIALS & OFFERS STYLES
+   ============================================ */
+
+.specials-section {
+    padding: 4rem 0;
+    background-color: var(--bg-color);
+}
+
+.specials-section h1 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.specials-section > .container > p {
+    text-align: center;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+}
+
+.specials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.special-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.special-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.special-card h3 {
+    color: var(--primary-color);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.special-card p {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.valid-until {
+    color: var(--warning-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.special-card .btn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.no-specials {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.no-specials p {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .review-header {
+        flex-direction: column;
+    }
+
+    .rating {
+        margin-top: 0.5rem;
+    }
+
+    .review-form-container {
+        padding: 1.5rem;
+    }
+
+    .specials-grid {
+        grid-template-columns: 1fr;
     }
 }
