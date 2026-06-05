@@ -63,6 +63,16 @@ def create_app(config_name='development'):
             print("Added is_admin column")
         except Exception:
             db.session.rollback()
+        # Grant admin to the admin user
+        try:
+            from app.models import User
+            admin_user = User.query.filter_by(username='admin').first()
+            if admin_user and not admin_user.is_admin:
+                admin_user.is_admin = True
+                db.session.commit()
+                print("Admin user granted admin access")
+        except Exception:
+            db.session.rollback()
         inspector = db.inspect(db.engine)
         tables = inspector.get_table_names()
         print(f"Database tables: {tables}")
