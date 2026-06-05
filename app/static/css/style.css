@@ -291,12 +291,12 @@ p {
 }
 
 .navbar-search input {
-    padding: 0.4rem 0.8rem;
+    padding: 0.4rem 1rem;
     border-radius: 50px;
     border: none;
     font-size: 0.85rem;
-    width: 130px;
-    background: rgba(255,255,255,0.15);
+    width: 140px;
+    background: rgba(255,255,255,0.18);
     color: var(--white);
     outline: none;
     transition: all 0.3s ease;
