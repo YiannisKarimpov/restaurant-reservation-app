@@ -77,6 +77,15 @@ p {
     gap: 1rem;
 }
 
+.navbar-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.5rem;
+    border: 2px solid var(--secondary-color);
+}
+
 .navbar-brand .brand-text {
     color: var(--white);
     font-family: 'Playfair Display', Georgia, serif;
@@ -241,6 +250,56 @@ p {
 
 .mobile-nav ul li a:hover {
     background: rgba(255,255,255,0.1);
+}
+
+.mobile-group-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    transition: background 0.2s ease;
+}
+
+.mobile-group-toggle:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.mobile-arrow {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.mobile-group-menu {
+    display: none;
+    background: rgba(0,0,0,0.15);
+}
+
+.mobile-group-menu.open {
+    display: block;
+}
+
+.mobile-group-menu li a {
+    padding-left: 2.5rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.mobile-logout {
+    color: #ff8a8a !important;
+}
+
+.mobile-group.open .mobile-arrow {
+    transform: rotate(180deg);
 }
 
 .navbar-search {
@@ -437,14 +496,27 @@ p {
 .feature {
     padding: 2rem;
     background-color: var(--bg-light);
-    border-radius: 8px;
+    border-radius: 16px;
     box-shadow: var(--shadow-sm);
+    text-align: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .feature:hover {
     box-shadow: var(--shadow-lg);
     transform: translateY(-4px);
+}
+
+.feature-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    color: var(--white);
 }
 
 .feature h3 {

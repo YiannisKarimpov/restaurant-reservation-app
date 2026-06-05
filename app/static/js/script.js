@@ -48,6 +48,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Mobile group toggles
+    document.querySelectorAll('.mobile-group-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const group = this.closest('.mobile-group');
+            const menu = group.querySelector('.mobile-group-menu');
+            const isOpen = menu.classList.contains('open');
+            document.querySelectorAll('.mobile-group-menu').forEach(m => m.classList.remove('open'));
+            document.querySelectorAll('.mobile-group').forEach(g => g.classList.remove('open'));
+            if (!isOpen) {
+                menu.classList.add('open');
+                group.classList.add('open');
+            }
+        });
+    });
+
     document.addEventListener('click', function(e) {
         if (mobileNav && hamburgerToggle &&
             !hamburgerToggle.contains(e.target) && !mobileNav.contains(e.target)) {
