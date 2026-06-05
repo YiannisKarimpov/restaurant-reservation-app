@@ -42,3 +42,7 @@ Thumbs.db
 # Node (if using any frontend tools)
 node_modules/
 package-lock.json
+
+# exclude production env
+.env.production
+.env.production.local
