@@ -149,6 +149,12 @@ restaurant-reservation-app/
 - `GET /admin/users` - Manage users
 - `GET /admin/specials` - Manage special offers
 
-## Author
+## Live Demo
+
+https://restaurant-reservation-app-ng2o.onrender.com/
+
+> **Note**: This app is hosted on Render's free plan. Your free instance will spin down with inactivity, which can delay requests by 50 seconds or more.
+
+## Author - Yiannis Karimpov
 
 Created as an academy assignment - Restaurant Reservation System
