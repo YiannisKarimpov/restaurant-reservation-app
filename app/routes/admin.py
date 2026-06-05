@@ -160,3 +160,15 @@ def add_special():
         return redirect(url_for('admin.view_specials'))
     
     return render_template('admin/add_special.html')
+
+
+@admin_bp.route('/specials/<int:id>/delete', methods=['POST'])
+@admin_required
+def delete_special(id):
+    """Delete a special offer."""
+    from app.models import Special
+    special = Special.query.get_or_404(id)
+    db.session.delete(special)
+    db.session.commit()
+    flash('Special deleted!', 'success')
+    return redirect(url_for('admin.view_specials'))

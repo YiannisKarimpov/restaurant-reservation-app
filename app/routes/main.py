@@ -252,18 +252,44 @@ def reviews():
 def specials():
     """View current specials and promotions."""
     try:
+        from datetime import datetime, date
         restaurant = Restaurant.query.first()
-        
+
         if not restaurant:
             specials_list = []
         else:
-            from datetime import datetime
+            if Special.query.filter_by(restaurant_id=restaurant.id).count() == 0:
+                sample_specials = [
+                    Special(
+                        restaurant_id=restaurant.id,
+                        title='Summer Special',
+                        description='Enjoy 20% off on all appetizers this summer!',
+                        discount='20% Off Appetizers',
+                        valid_until=date(2026, 12, 31)
+                    ),
+                    Special(
+                        restaurant_id=restaurant.id,
+                        title='Happy Hour',
+                        description='Get $5 off any main course between 4-6 PM',
+                        discount='$5 Off Main',
+                        valid_until=date(2026, 12, 31)
+                    ),
+                    Special(
+                        restaurant_id=restaurant.id,
+                        title='Weekend Brunch',
+                        description='Join us for our special weekend brunch menu',
+                        discount='Brunch Special',
+                        valid_until=date(2026, 12, 31)
+                    ),
+                ]
+                db.session.add_all(sample_specials)
+                db.session.commit()
+
             specials_list = Special.query.filter_by(restaurant_id=restaurant.id).all()
-            # Filter by valid_until >= today
             specials_list = [s for s in specials_list if s.valid_until >= datetime.now().date()]
-        
+
         return render_template('specials.html', specials=specials_list, restaurant=restaurant)
-    
+
     except Exception as e:
         flash('Error loading specials', 'error')
         return render_template('specials.html', specials=[], restaurant=None)
