@@ -7,8 +7,10 @@
     <div class="container">
         <h1>Welcome to Bistro</h1>
         <p>Experience fine dining at its best</p>
-        <a href="{{ url_for('main.reserve') }}" class="btn btn-primary">Make a Reservation</a>
-        <a href="{{ url_for('main.menu') }}" class="btn btn-secondary" style="margin-left: 1rem;">View Menu</a>
+        <div class="hero-buttons">
+            <a href="{{ url_for('main.reserve') }}" class="btn btn-primary">Make a Reservation</a>
+            <a href="{{ url_for('main.menu') }}" class="btn btn-secondary">View Menu</a>
+        </div>
     </div>
 </section>
 

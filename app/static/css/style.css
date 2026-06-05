@@ -380,6 +380,13 @@ p {
     letter-spacing: 0.5px;
 }
 
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 /* Main Content */
 .main-content {
     min-height: calc(100vh - 200px);
