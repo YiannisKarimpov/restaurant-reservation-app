@@ -10,13 +10,16 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
 def admin_required(f):
-    """Decorator to check if user is admin."""
+    """Decorator to check if user is authenticated and is an admin."""
     from functools import wraps
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.is_authenticated:
-            flash('Admin access required!', 'error')
+            flash('Please log in to access this page.', 'error')
             return redirect(url_for('auth.login'))
+        if not current_user.is_admin:
+            flash('Admin access required!', 'error')
+            return redirect(url_for('main.index'))
         return f(*args, **kwargs)
     return decorated_function
 
