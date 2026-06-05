@@ -6,13 +6,8 @@ from app import create_app, db
 from app.models import Restaurant, Special
 from datetime import datetime, timedelta
 
-# Use production config to connect to Render's DB
+# Use production config — set DB env vars before running this script
 os.environ['FLASK_ENV'] = 'production'
-os.environ['DB_HOST'] = 'dpg-d8h8ummk1jcs739m7sqg-a'  # From Render dashboard
-os.environ['DB_PORT'] = '5432'
-os.environ['DB_NAME'] = 'restaurant_db_0saa'
-os.environ['DB_USER'] = 'restaurant_db_0saa_user'
-os.environ['DB_PASSWORD'] = '6GaUliLoOtYQAHPa8KZKoJLgViM3Flzf'  # From Render dashboard
 
 app = create_app('production')
 
