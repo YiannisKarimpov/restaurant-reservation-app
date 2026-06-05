@@ -251,12 +251,19 @@ def reviews():
 @main_bp.route('/specials')
 def specials():
     """View current specials and promotions."""
-    from app.models import Special
-    from datetime import datetime
+    try:
+        restaurant = Restaurant.query.first()
+        
+        if not restaurant:
+            specials_list = []
+        else:
+            from datetime import datetime
+            specials_list = Special.query.filter_by(restaurant_id=restaurant.id).all()
+            # Filter by valid_until >= today
+            specials_list = [s for s in specials_list if s.valid_until >= datetime.now().date()]
+        
+        return render_template('specials.html', specials=specials_list, restaurant=restaurant)
     
-    restaurant = Restaurant.query.first()
-    specials = Special.query.filter_by(restaurant_id=restaurant.id).filter(
-        Special.valid_until >= datetime.now().date()
-    ).all()
-    
-    return render_template('specials.html', specials=specials, restaurant=restaurant)
+    except Exception as e:
+        flash('Error loading specials', 'error')
+        return render_template('specials.html', specials=[], restaurant=None)
