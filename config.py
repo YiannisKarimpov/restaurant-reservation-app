@@ -31,14 +31,13 @@ class Config:
     MAIL_USERNAME = os.getenv('MAIL_USERNAME', '')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', '')
     MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER', 'noreply@bistro.com')
-    
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///./restaurant.db'
 
 
 class DevelopmentConfig(Config):
     """Development configuration."""
     DEBUG = True
     TESTING = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///./restaurant.db'
 
 
 class ProductionConfig(Config):
