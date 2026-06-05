@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Specials{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <h1>Manage Specials</h1>
+        
+        <a href="{{ url_for('admin.add_special') }}" class="btn btn-primary">+ Add Special</a>
+
+        {% if specials %}
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Discount</th>
+                        <th>Valid Until</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for special in specials %}
+                        <tr>
+                            <td>{{ special.title }}</td>
+                            <td>{{ special.discount }}</td>
+                            <td>{{ special.valid_until.strftime('%b %d, %Y') }}</td>
+                            <td>
+                                <form method="POST" action="{{ url_for('admin.delete_special', id=special.id) }}" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No specials yet.</p>
+        {% endif %}
+
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Back</a>
+    </div>
+</section>
+{% endblock %}

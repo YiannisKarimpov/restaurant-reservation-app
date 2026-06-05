@@ -117,3 +117,46 @@ def users():
     """View all users."""
     users = User.query.all()
     return render_template('admin/users.html', users=users)
+
+
+@admin_bp.route('/specials')
+@admin_required
+def view_specials():
+    """View all specials."""
+    from app.models import Special
+    specials = Special.query.all()
+    return render_template('admin/specials.html', specials=specials)
+
+
+@admin_bp.route('/specials/add', methods=['GET', 'POST'])
+@admin_required
+def add_special():
+    """Add new special offer."""
+    from app.models import Special, Restaurant
+    from datetime import datetime
+    
+    if request.method == 'POST':
+        restaurant = Restaurant.query.first()
+        title = request.form.get('title')
+        description = request.form.get('description')
+        discount = request.form.get('discount')
+        valid_until = request.form.get('valid_until')
+        
+        if not all([title, description, discount, valid_until]):
+            flash('All fields required!', 'error')
+            return redirect(url_for('admin.add_special'))
+        
+        special = Special(
+            restaurant_id=restaurant.id,
+            title=title,
+            description=description,
+            discount=discount,
+            valid_until=datetime.strptime(valid_until, '%Y-%m-%d').date()
+        )
+        db.session.add(special)
+        db.session.commit()
+        
+        flash('Special added!', 'success')
+        return redirect(url_for('admin.view_specials'))
+    
+    return render_template('admin/add_special.html')

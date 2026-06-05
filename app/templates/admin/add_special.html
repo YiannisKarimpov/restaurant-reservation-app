@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Add Special - Admin{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <div class="form-container">
+            <h1>Add Special Offer</h1>
+            
+            <form method="POST" class="admin-form">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="discount">Discount (e.g., "20% Off" or "$10 Off")</label>
+                    <input type="text" id="discount" name="discount" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="valid_until">Valid Until</label>
+                    <input type="date" id="valid_until" name="valid_until" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Special</button>
+            </form>
+
+            <a href="{{ url_for('admin.view_specials') }}" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
