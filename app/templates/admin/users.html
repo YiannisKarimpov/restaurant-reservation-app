@@ -8,6 +8,7 @@
         <h1>Manage Users</h1>
         
         {% if users %}
+            <div class="table-wrapper">
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -28,6 +29,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
         {% else %}
             <p>No users found.</p>
         {% endif %}

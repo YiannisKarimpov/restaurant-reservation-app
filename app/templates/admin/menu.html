@@ -10,6 +10,7 @@
         <a href="{{ url_for('admin.add_menu_item') }}" class="btn btn-primary">+ Add Menu Item</a>
 
         {% if menu_items %}
+            <div class="table-wrapper">
             <table class="admin-table">
                 <thead>
                     <tr>
@@ -36,6 +37,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            </div>
         {% else %}
             <p>No menu items found.</p>
         {% endif %}

@@ -1094,13 +1094,19 @@ p {
     margin-top: 0.5rem;
 }
 
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 2rem;
+}
+
 .admin-table {
     width: 100%;
     border-collapse: collapse;
     box-shadow: var(--shadow-sm);
     border-radius: 8px;
     overflow: hidden;
-    margin-bottom: 2rem;
+    min-width: 500px;
 }
 
 .admin-table thead {
