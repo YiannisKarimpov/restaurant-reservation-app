@@ -8,6 +8,7 @@
         <h1>Welcome to Bistro</h1>
         <p>Experience fine dining at its best</p>
         <a href="{{ url_for('main.reserve') }}" class="btn btn-primary">Make a Reservation</a>
+        <a href="{{ url_for('main.menu') }}" class="btn btn-secondary" style="margin-left: 1rem;">View Menu</a>
     </div>
 </section>
 
@@ -27,6 +28,35 @@
                 <h3>🎭 Elegant Ambiance</h3>
                 <p>Perfect setting for any occasion</p>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="home-specials">
+    <div class="container">
+        <div class="home-specials-header">
+            <h2>Current Offers</h2>
+            <p>Exclusive deals available for a limited time</p>
+        </div>
+        <div class="home-specials-grid">
+            <div class="home-special-card">
+                <span class="home-special-badge">20% Off</span>
+                <h3>Summer Special</h3>
+                <p>Enjoy 20% off on all appetizers this summer!</p>
+            </div>
+            <div class="home-special-card">
+                <span class="home-special-badge">$5 Off</span>
+                <h3>Happy Hour</h3>
+                <p>Get $5 off any main course between 4–6 PM</p>
+            </div>
+            <div class="home-special-card">
+                <span class="home-special-badge">Special</span>
+                <h3>Weekend Brunch</h3>
+                <p>Join us for our special weekend brunch menu</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 2.5rem;">
+            <a href="{{ url_for('main.specials') }}" class="btn btn-primary">See All Offers</a>
         </div>
     </div>
 </section>
