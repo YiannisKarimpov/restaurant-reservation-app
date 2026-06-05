@@ -55,7 +55,14 @@ def create_app(config_name='development'):
     # Create database tables
     with app.app_context():
         db.create_all()
-        # Debug: Check if tables exist
+        # Add is_admin column if it doesn't exist (migration fallback)
+        from sqlalchemy import text
+        try:
+            db.session.execute(text('ALTER TABLE "user" ADD COLUMN is_admin BOOLEAN DEFAULT FALSE'))
+            db.session.commit()
+            print("Added is_admin column")
+        except Exception:
+            db.session.rollback()
         inspector = db.inspect(db.engine)
         tables = inspector.get_table_names()
         print(f"Database tables: {tables}")
