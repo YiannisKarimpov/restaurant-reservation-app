@@ -11,6 +11,7 @@
 </head>
 <body>
     <!-- Navigation -->
+    <div class="navbar-wrapper">
     <nav class="navbar">
         <div class="container">
             <div class="navbar-brand">
@@ -52,12 +53,40 @@
                     </ul>
                 </li>
             </ul>
-            <form method="GET" action="{{ url_for('main.search') }}" class="navbar-search">
+            <div class="mobile-controls">
+                <button class="hamburger" id="hamburgerToggle" aria-label="Toggle menu">☰</button>
+                <button class="search-toggle" id="searchToggle" aria-label="Toggle search">🔍</button>
+            </div>
+            <form method="GET" action="{{ url_for('main.search') }}" class="navbar-search" id="navbarSearch">
                 <input type="text" name="q" placeholder="Search...">
                 <button type="submit">🔍</button>
             </form>
         </div>
     </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.menu') }}">Menu</a></li>
+            <li><a href="{{ url_for('main.specials') }}">Specials</a></li>
+            <li><a href="{{ url_for('main.reviews') }}">Reviews</a></li>
+            <li><a href="{{ url_for('main.reserve') }}">Reserve a Table</a></li>
+            <li><a href="{{ url_for('main.about') }}">About Us</a></li>
+            <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('admin.dashboard') }}">Admin</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <form method="GET" action="{{ url_for('main.search') }}" class="search-expanded" id="searchExpanded">
+        <input type="text" name="q" placeholder="Search menu, specials..." autofocus>
+        <button type="submit">Search</button>
+    </form>
+    </div>
 
     <!-- Main Content -->
     <main class="main-content">

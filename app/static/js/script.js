@@ -5,8 +5,8 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Restaurant Reservation App loaded');
-    
-    // Add smooth scrolling for anchor links
+
+    // Smooth scrolling for anchor links
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -17,6 +17,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetElement.scrollIntoView({ behavior: 'smooth' });
             }
         });
+    });
+
+    // Mobile hamburger toggle
+    const hamburgerToggle = document.getElementById('hamburgerToggle');
+    const mobileNav = document.getElementById('mobileNav');
+
+    if (hamburgerToggle && mobileNav) {
+        hamburgerToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            mobileNav.classList.toggle('open');
+            if (searchExpanded) searchExpanded.classList.remove('open');
+            hamburgerToggle.textContent = mobileNav.classList.contains('open') ? '✕' : '☰';
+        });
+    }
+
+    // Mobile search toggle
+    const searchToggle = document.getElementById('searchToggle');
+    const searchExpanded = document.getElementById('searchExpanded');
+
+    if (searchToggle && searchExpanded) {
+        searchToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchExpanded.classList.toggle('open');
+            if (mobileNav) mobileNav.classList.remove('open');
+            if (hamburgerToggle) hamburgerToggle.textContent = '☰';
+            if (searchExpanded.classList.contains('open')) {
+                searchExpanded.querySelector('input').focus();
+            }
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (mobileNav && hamburgerToggle &&
+            !hamburgerToggle.contains(e.target) && !mobileNav.contains(e.target)) {
+            mobileNav.classList.remove('open');
+            hamburgerToggle.textContent = '☰';
+        }
+        if (searchExpanded && searchToggle &&
+            !searchToggle.contains(e.target) && !searchExpanded.contains(e.target)) {
+            searchExpanded.classList.remove('open');
+        }
     });
 });
 
